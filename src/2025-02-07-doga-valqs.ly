@@ -18,19 +18,6 @@
   left-right = 15\mm      
 }
 
-offsetPositions =
-#(define-music-function (offsets) (number-pair?)
-  #{
-     \once \override Slur.control-points =
-       #(lambda (grob)
-          (match-let ((((_ . y1) _ _ (_ . y2))
-                       (ly:slur::calc-control-points grob))
-                      ((off1 . off2) offsets))
-            (set! (ly:grob-property grob 'positions)
-                  (cons (+ y1 off1) (+ y2 off2)))
-            (ly:slur::calc-control-points grob)))
-  #})
-
 bassnotes = #(define-music-function
               (note1 note2 note3)
               (ly:pitch? ly:pitch?  ly:pitch?)       
@@ -48,8 +35,8 @@ musicOne = \relative c'' {
   g4. b e fis8( a8. g16)\! |
   c,1. |
   a4. c4. e4. a8( b8. a16) |
-  c4. c4( b8) f4. r4. |
-  r4. r4. 
+  c4.(~ c4 b8) f4. r4. |
+  b,8( a'8. g16) g4. 
   e,8(- \markup { \halign #-0.5 \italic "s t r e n g e n d o"} 
   c'8. b16) b4. |
   gis8(  f'8. e16) f8( e f) f4. e |
@@ -62,7 +49,7 @@ musicOne = \relative c'' {
   f8( e d) d( e f) a4. f8( c'8. b16) |
   b2.~b4 r8 e,( fis gis) |
   a4. r4. r4. r4. |
-  R1. \bar "|."
+  R1. | r8\fermata  \bar "|."
   
   
   
@@ -78,18 +65,18 @@ musicTwo = \relative c''' {
   \repeat unfold 4 { a'4( g8) } |
   c,2.~c4. r |
   R1. |
-  b8( a'8. gis16) gis4. r4. r4. |
-  gis,,8(  f'8. e16) f8( e f) f4. e | 
+  b8( a'8. gis16) gis4. e,8( c'8. b16) b4. |
+  gis,8(  f'8. e16) f8( e f) f4. e | 
   a-> a-> a-> a8( b c) |
   d4. f, e r4. | 
   gis-> gis-> gis-> gis8( b a) |
-  a4. a4 c8 e,4. r4. |
+  a4. a4( c8) e,4. r4. |
   f f f8( g a) b( c d) |
   f4. r4. f,8( a b) c( d e) |
   d( c b) b( c d) f4. d8( a'8. gis16) |
   gis2.~gis4 r8 r4. |
   r4. e,8(\p fis gis) a4. r4.|
-  R1. \bar "|."
+  R1. | r8\fermata \bar "|."
 }
 
 musicCommon = \relative c'' {
@@ -126,11 +113,11 @@ pianoRight = \relative {
   s2. s4. d'4. |
   \clef bass
   r8 \after 8 \< \repeat unfold 2 <dis, a' b>
-  r8 e,16( gis b d)
-  r8 \after 16 \! \repeat unfold 2 <e gis d'>
+  r8 e16( gis b d)
+  r8 \after 16 \! \repeat unfold 2 <e, gis d'>
   r8 gis16( b d e) |
-  r8 \repeat unfold 2 <fis, b d>  
-  r8 \repeat unfold 2 <fis a d> 
+  r8 \repeat unfold 2 <f, b d>  
+  r8 \repeat unfold 2 <f a d> 
   r8 \repeat unfold 2 <dis a' b> 
   s4. |
   <>\f \repeat unfold 3 { r8 <e a c> <e a c> } r8 <e a b> <e a c> |
@@ -151,7 +138,8 @@ pianoRight = \relative {
   \clef violin
   \once \override NoteHead.extra-spacing-width = #'(-2 . 5)
   <d' e gis>2.\pp\arpeggio^Andante 
-  <a' a'>8\>^"Allarg." <c c'> <e e'> <a a'>4.\!\fermata \bar "|."
+  <a' a'>8\>^"Allarg." <c c'> <e e'> <a a'>4.~\!
+  <a a'>8\fermata  \bar "|."
 }
 
 pianoLeft = \relative c,  {
@@ -160,20 +148,16 @@ pianoLeft = \relative c,  {
   \time 12/8 
   \key a \minor
   %   a8 b \change Staff = "rh" c  \change Staff= "lh"
-  \repeat unfold 4 { \bassnotes e b' e \bassnotes b, b' e } |
-  \repeat unfold 2 { \bassnotes e, b' e \bassnotes b, b' e } |
-  \repeat unfold 2 { \bassnotes e, b' e \bassnotes b, b' e } |
+  \repeat unfold 4 { \bassnotes e b' e \bassnotes b, b' g' } |
+  \repeat unfold 2 { \bassnotes e, b' e \bassnotes b, b' g' } |
+  \repeat unfold 2 { \bassnotes e, b' e \bassnotes b, b' g' } |
 
 
 
   \repeat unfold 4 {
+    
     <<
-      \new Voice 
-      { \voiceOne \bassnotes a, e' a \bassnotes e, e' c' }
-      \new Voice {
-        \voiceTwo
-        a,4. e4.
-      }
+      { \bassnotes a, e' a \bassnotes e, e' c' } \\ { a,4. e4. }
     >>
   }
   
@@ -216,9 +200,9 @@ pianoLeft = \relative c,  {
   \acciaccatura a'8\sustainOff\sustainOn a
   \acciaccatura c8 c
   \acciaccatura e8 e
-  \acciaccatura a8 \after 4 \sustainOff a4.\fermata
-  
-  
+  \acciaccatura a8  a4.~
+  \after 16 \sustainOff a8\fermata   \bar "|."
+   
   
 
 }
@@ -226,6 +210,12 @@ pianoLeft = \relative c,  {
 \bookpart {
 
   \score {
+      \layout {
+    \context {
+      \Score
+      \override SpacingSpanner.base-shortest-duration = #(ly:make-moment 1/16)
+    }
+  }
 
     <<
   
