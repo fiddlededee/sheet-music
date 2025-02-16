@@ -36,7 +36,7 @@ musicOne = \relative c'' {
   c,1. |
   a4. c4. e4. a8( b8. a16) |
   c4.(~ c4 b8) f4. r4. |
-  b,8( a'8. g16) g4. 
+  b,8( a'8. gis16) gis4. 
   e,8(- \markup { \halign #-0.5 \italic "s t r e n g e n d o"} 
   c'8. b16) b4. |
   gis8(  f'8. e16) f8( e f) f4. e |
@@ -47,9 +47,9 @@ musicOne = \relative c'' {
   a-> a-> a8( b c) d( e f) |
   a4. b4(\> c8)\! f,4. r4. |
   f8( e d) d( e f) a4. f8( c'8. b16) |
-  b2.~b4 r8 e,( fis gis) |
+  b2.~b4 r8 e, fis gis |
   a4. r4. r4. r4. |
-  R1. | r8\fermata  \bar "|."
+  r8\fermata  \bar "|."
   
   
   
@@ -74,9 +74,9 @@ musicTwo = \relative c''' {
   f f f8( g a) b( c d) |
   f4. r4. f,8( a b) c( d e) |
   d( c b) b( c d) f4. d8( a'8. gis16) |
-  gis2.~gis4 r8 r4. |
-  r4. e,8(\p fis gis) a4. r4.|
-  R1. | r8\fermata \bar "|."
+  gis2.~gis4 r8 e,8 fis gis |
+  a4. r4. r4. r4.|
+  r8\fermata \bar "|."
 }
 
 musicCommon = \relative c'' {
@@ -96,7 +96,7 @@ musicCommon = \relative c'' {
   s2.\f s2.\< |
   \after 4 \! s4. s4. s2.\mf |
   s2.\< s4.\! s8 s8\f s8 |
-  s2. s4. s4.\mp
+  s2. s4. s4.\f
 }
 
 pianoRight = \relative {
@@ -133,12 +133,13 @@ pianoRight = \relative {
   r8 <f a> <f a> r8 f16( a d f) |
   \repeat unfold 2 { r8 <f, a d> <f a d> }
   \repeat unfold 2 { r8 <f a c> <f a c> } |
-  <>\> \after 2. \pp \repeat unfold 3 { r8 <fis b dis> <fis b dis> } r4. |
-  R1. |
+  \repeat unfold 3 { r8 <fis b dis> <fis b dis> } <gis b e>4.
+  % r4. |
   \clef violin
   \once \override NoteHead.extra-spacing-width = #'(-2 . 5)
-  <d' e gis>2.\pp\arpeggio^Andante 
-  <a' a'>8\>^"Allarg." <c c'> <e e'> <a a'>4.~\!
+  % <a' e' a>2.\arpeggio^Andante 
+  <c e a>2.\arpeggio^Andante
+  <a a'>8\pp^"Allarg." <c c'> <e e'> <a a'>4.~ |
   <a a'>8\fermata  \bar "|."
 }
 
@@ -194,9 +195,10 @@ pianoLeft = \relative c,  {
   \repeat unfold 2 { <f, f'>4-. r8  c'4-. r8 } |
   <f, f'>4 r8 <c' c'>4 r8 <d d'>4 r8 <a a'>4. |  
   <d d'>4 r8 <a a'>4 r8 <f f'>4 r8 <c' c'>4 r8 |
-  <b b'>4. <fis fis'> <b b'> r4. |
-  R1. |
-  <e b' e gis>2.\arpeggio\sustainOn 
+  <b b'>4. <fis fis'> <b b'> <e d'>4.\arpeggio
+  % r4. |
+  % <e b' gis' d'>2.\arpeggio\sustainOn 
+  <a e' a>2.\arpeggio\sustainOn 
   \acciaccatura a'8\sustainOff\sustainOn a
   \acciaccatura c8 c
   \acciaccatura e8 e
@@ -255,7 +257,7 @@ pianoLeft = \relative c,  {
   
     >>
   
-    %\midi {}
+    \midi {}
 
   }
 }
