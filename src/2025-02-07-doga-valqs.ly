@@ -139,7 +139,7 @@ pianoRight = \relative {
   \once \override NoteHead.extra-spacing-width = #'(-2 . 5)
   % <a' e' a>2.\arpeggio^Andante 
   <c e a>2.\arpeggio^Andante
-  <a a'>8\pp^"Allarg." <c c'> <e e'> <a a'>4.~ |
+  <a' a'>8\pp^"Allarg." <c c'> <e e'> <a a'>4.~ |
   <a a'>8\fermata  \bar "|."
 }
 
